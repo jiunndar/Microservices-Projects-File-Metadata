@@ -12,6 +12,22 @@ app.get('/', function (req, res) {
 });
 
 
+//start
+const multer  = require('multer');
+
+
+var upload = multer({ dest: "uploads/" });
+app.post("/api/fileanalyse", upload.single("upfile"), function(req, res, next) {
+  var upfile = req.file;
+  if (typeof upfile === "undefined") res.json({ error: "Invalid file" });
+  return res.json({
+    name: upfile.originalname,
+    type: upfile.mimetype,
+    size: upfile.size
+  });
+});
+//end
+
 
 
 const port = process.env.PORT || 3000;
